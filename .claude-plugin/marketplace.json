@@ -1,0 +1,12 @@
+{
+  "name": "claude-marketplace",
+  "owner": {
+    "name": "kengo.nishimura"
+  },
+  "metadata": {
+    "description": "Claude Code plugins marketplace",
+    "version": "0.0.1",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": []
+}
