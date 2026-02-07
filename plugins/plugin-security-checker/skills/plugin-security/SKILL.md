@@ -79,15 +79,17 @@ Dependency risks:
 - `pip` or `pipx` running unverified packages
 - No version pinning on external packages
 
-### 3. Scripts Analysis (Priority: High)
+### 3. Scripts and Executable Files Analysis (Priority: High)
 
-Scripts in the scripts/ directory or referenced by hooks.
+Scan ALL non-declarative files in the plugin. Do not filter by file extension — attackers can use any language or extension. Inspect every file that is not purely declarative markup (.md, .json, .yaml, .yml, .txt).
 
-**Check all executable files (.sh, .py, .js, .rb, etc.) for:**
+Pay special attention to files in `scripts/` directory, files referenced by hooks, and files with executable permissions.
+
+**Check all non-declarative files for:**
 
 Network operations:
-- HTTP requests: `curl`, `wget`, `fetch`, `requests.get/post`, `http.get`
-- Socket operations: `socket`, `net.connect`, `TCP`
+- HTTP requests: `curl`, `wget`, `fetch`, `requests.get/post`, `http.get`, `axios`, `urllib`, `httpx`
+- Socket operations: `socket`, `net.connect`, `TCP`, `dgram`, `WebSocket`
 - DNS lookups to unusual domains
 
 File system operations:
@@ -102,6 +104,10 @@ Code obfuscation:
 - Minified or intentionally unreadable code
 - Embedded binary data
 - ROT13, XOR, or other encoding of strings
+
+Binary or unreadable files:
+- Flag any binary files for manual review
+- Note any files with unusual encodings or formats
 
 ### 4. Skills and Agents Analysis (Priority: Medium)
 

@@ -84,18 +84,23 @@ For each MCP server:
 4. Look for hardcoded URLs, IPs, or tokens
 5. Verify npx/pip packages if used
 
-#### C. Scripts
+#### C. Scripts and Executable Files
 
-Find all executable files:
-- `scripts/` directory
-- Any `.sh`, `.py`, `.js`, `.rb`, `.pl` files anywhere in plugin
+Scan ALL non-markdown, non-JSON files in the plugin directory for malicious patterns. Do not filter by file extension — attackers can use any extension (.ts, .mjs, .go, .zsh, or even no extension).
 
-For each script:
+Discovery approach:
+1. List all files recursively in the plugin directory
+2. Exclude known safe declarative files: `.md`, `.json`, `.yaml`, `.yml`, `.txt`, `.LICENSE`, `.gitkeep`
+3. Treat everything else as potentially executable and inspect it
+4. Pay special attention to: `scripts/` directory, files referenced by hooks, files with executable permissions
+
+For each file found:
 1. Read the full content
-2. Check for network operations (curl, wget, fetch, socket)
+2. Check for network operations (curl, wget, fetch, socket, http.get, requests, axios, net.connect)
 3. Check for file operations outside plugin root
-4. Check for obfuscation (base64, eval, minified code)
+4. Check for obfuscation (base64, eval, minified code, embedded binary data)
 5. Check for credential access
+6. Flag any binary or unreadable files as INFO findings for manual review
 
 #### D. Skills and Agents
 
